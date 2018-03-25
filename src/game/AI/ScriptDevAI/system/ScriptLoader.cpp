@@ -8,6 +8,9 @@
 extern void AddSC_battleground();
 
 // custom
+extern void AddSC_item_custom_dualspec();
+extern void AddSC_npc_custom_dualspec();
+extern void AddSC_custom_vengeance_helpers();
 
 // examples
 extern void AddSC_example_creature();
@@ -363,6 +366,9 @@ void AddScripts()
     AddSC_battleground();
 
     // custom
+    AddSC_item_custom_dualspec();
+    AddSC_npc_custom_dualspec();
+    AddSC_custom_vengeance_helpers();
 
     // examples
     AddSC_example_creature();

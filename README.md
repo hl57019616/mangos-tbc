@@ -1,3 +1,25 @@
+# MantisLord's CMaNGOS custom content
+
+Feel free to use for any project :)
+
+Some of this might not work directly out of the box and require some modification to get working properly.
+
+**SQL Updates (run in order if possible):**
+
+0003_Custom_Vengeance_NPCs.sql - https://gist.github.com/MantisLord/53af9ff48493938a8996b13a5a899844
+
+0010_instant_58.sql - https://gist.github.com/MantisLord/234dae0fc9177fd761297de764eb6bed
+
+710_Custom_Game_Events_Schedule.sql - https://gist.github.com/MantisLord/2b14601e3b4cd2a62f62b4624a642f8f
+
+OPTIONAL - 001_Instant70_PTR_Base.sql  - https://gist.github.com/MantisLord/9ffed1cdf8e1b976aa175a333597eae2 (replaces some content in instant 58 file with PTR/instant lvl 70 focused content)
+
+**Dual Specialization feature:**
+
+DualSpec.sql - \sql\updates\custom core folder
+
+0017_dualspec.sql - https://gist.github.com/MantisLord/ee2ab744f58814d209acca97dc88761c
+
 # C(ontinued)-MaNGOS -- README
 [![Build Status](https://travis-ci.org/cmangos/mangos-tbc.svg?branch=master)](https://travis-ci.org/cmangos/mangos-tbc) [![Windows Build status](https://ci.appveyor.com/api/projects/status/github/cmangos/mangos-tbc?branch=master&svg=true)](https://ci.appveyor.com/project/cmangos/mangos-tbc/branch/master)
 
