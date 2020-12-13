@@ -918,7 +918,7 @@ bool FollowMovementGenerator::_getLocation(Unit& owner, float& x, float& y, floa
     else if (movingNow)
     {
         const float speed = i_target->GetSpeedInMotion();
-        float to = i_target->m_movementInfo.GetOrientationInMotion(i_target->GetOrientation());
+        float to = i_target->m_movementInfo->GetOrientationInMotion(i_target->GetOrientation());
 
         float dx = (speed * cos(to)), dy = (speed * sin(to));
 

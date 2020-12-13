@@ -10181,7 +10181,7 @@ void Unit::InterruptMoving(bool forceSendStop /*=false*/)
         Position pos(computedLoc.x, computedLoc.y, computedLoc.z, computedLoc.orientation);
         if (GenericTransport* transport = GetTransport())
         {
-            m_movementInfo.UpdateTransportData(pos);
+            m_movementInfo->UpdateTransportData(pos);
             transport->CalculatePassengerPosition(pos.x, pos.y, pos.z, &pos.o);
         }
 
@@ -11299,7 +11299,7 @@ void Unit::UpdateSplineMovement(uint32 t_diff)
         Position pos(computedLoc.x, computedLoc.y, computedLoc.z, computedLoc.orientation);
         if (GenericTransport* transport = GetTransport())
         {
-            m_movementInfo.UpdateTransportData(pos);
+            m_movementInfo->UpdateTransportData(pos);
             transport->CalculatePassengerPosition(pos.x, pos.y, pos.z, &pos.o);
         }
 
@@ -11327,7 +11327,7 @@ void Unit::UpdateSplinePosition()
     Position pos(computedLoc.x, computedLoc.y, computedLoc.z, computedLoc.orientation);
     if (GenericTransport* transport = GetTransport())
     {
-        m_movementInfo.UpdateTransportData(pos);
+        m_movementInfo->UpdateTransportData(pos);
         transport->CalculatePassengerPosition(pos.x, pos.y, pos.z, &pos.o);
     }
     if (GenericTransport* transport = GetTransport())

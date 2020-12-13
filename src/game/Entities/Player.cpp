@@ -2098,7 +2098,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
             float final_z = z;
             float final_o = orientation;
 
-            Position const& transportPosition = m_movementInfo.GetTransportPos();
+            Position const& transportPosition = m_movementInfo->GetTransportPos();
 
             m_teleport_dest = WorldLocation(mapid, final_x, final_y, final_z, final_o);
             SetFallInformation(0, final_z);
@@ -15081,7 +15081,7 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder* holder)
     {
         m_movementInfo->SetTransportData(ObjectGuid(HIGHGUID_MO_TRANSPORT, transGUID), fields[26].GetFloat(), fields[27].GetFloat(), fields[28].GetFloat(), fields[29].GetFloat(), 0);
 
-        Position const& transportPosition = m_movementInfo.GetTransportPos();
+        Position const& transportPosition = m_movementInfo->GetTransportPos();
 
         if (!MaNGOS::IsValidMapCoord(
                     GetPositionX() + transportPosition.x, GetPositionY() + transportPosition.y,
@@ -16628,7 +16628,7 @@ void Player::SaveToDB()
     uberInsert.addUInt32(m_resetTalentsCost);
     uberInsert.addUInt64(uint64(m_resetTalentsTime));
 
-    Position const& transportPosition = m_movementInfo.GetTransportPos();
+    Position const& transportPosition = m_movementInfo->GetTransportPos();
     uberInsert.addFloat(finiteAlways(transportPosition.x));
     uberInsert.addFloat(finiteAlways(transportPosition.y));
     uberInsert.addFloat(finiteAlways(transportPosition.z));
@@ -21013,7 +21013,7 @@ InventoryResult Player::CanEquipUniqueItem(ItemPrototype const* itemProto, uint8
 void Player::HandleFall(const MovementInfoPtr& movementInfo)
 {
     // calculate total z distance of the fall
-    Position const& position = movementInfo.GetPos();
+    Position const& position = movementInfo->GetPos();
     float z_diff = m_lastFallZ - position.z;
     DEBUG_LOG("zDiff = %f", z_diff);
 
@@ -21049,7 +21049,7 @@ void Player::HandleFall(const MovementInfoPtr& movementInfo)
             }
 
             // Z given by moveinfo, LastZ, FallTime, WaterZ, MapZ, Damage, Safefall reduction
-            DEBUG_LOG("FALLDAMAGE z=%f sz=%f pZ=%f FallTime=%d mZ=%f damage=%d SF=%d", position.z, height, GetPositionZ(), movementInfo.GetFallTime(), height, damage, safe_fall);
+            DEBUG_LOG("FALLDAMAGE z=%f sz=%f pZ=%f FallTime=%d mZ=%f damage=%d SF=%d", position.z, height, GetPositionZ(), movementInfo->GetFallTime(), height, damage, safe_fall);
         }
     }
 }
@@ -21172,8 +21172,8 @@ void Player::LearnTalent(uint32 talentId, uint32 talentRank)
 
 void Player::UpdateFallInformationIfNeed(const MovementInfoPtr& minfo, uint16 opcode)
 {
-    if (m_lastFallTime >= minfo.GetFallTime() || m_lastFallZ <= minfo.GetPos().z || minfo.HasMovementFlag(MOVEFLAG_FLYING2) || opcode == MSG_MOVE_FALL_LAND)
-        SetFallInformation(minfo.GetFallTime(), minfo.GetPos().z);
+    if (m_lastFallTime >= minfo->GetFallTime() || m_lastFallZ <= minfo->GetPos().z || minfo->HasMovementFlag(MOVEFLAG_FLYING2) || opcode == MSG_MOVE_FALL_LAND)
+        SetFallInformation(minfo->GetFallTime(), minfo->GetPos().z);
 }
 
 void Player::UnsummonPetTemporaryIfAny()

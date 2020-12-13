@@ -260,9 +260,9 @@ void Object::BuildMovementUpdate(ByteBuffer* data, uint8 updateFlags) const
 
         // TODO: Remove this when moveflag is properly used
         if (unit->GetTransport())
-            const_cast<Unit*>(unit)->m_movementInfo.AddMovementFlag(MOVEFLAG_ONTRANSPORT);
+            const_cast<Unit*>(unit)->m_movementInfo->AddMovementFlag(MOVEFLAG_ONTRANSPORT);
         else
-            const_cast<Unit*>(unit)->m_movementInfo.RemoveMovementFlag(MOVEFLAG_ONTRANSPORT);
+            const_cast<Unit*>(unit)->m_movementInfo->RemoveMovementFlag(MOVEFLAG_ONTRANSPORT);
 
         // Write movement info
         *data << unit->m_movementInfo;
@@ -1148,7 +1148,7 @@ void WorldObject::Relocate(float x, float y, float z, float orientation)
     m_position.o = orientation;
 
     if (isType(TYPEMASK_UNIT))
-        m_movementInfo.ChangePosition(x, y, z, orientation);
+        m_movementInfo->ChangePosition(x, y, z, orientation);
 
     if (isType(TYPEMASK_PLAYER))
         this->ToCPlayer()->HandleRelocate(x, y, z, orientation);
@@ -1161,7 +1161,7 @@ void WorldObject::Relocate(float x, float y, float z)
     m_position.z = z;
 
     if (isType(TYPEMASK_UNIT))
-        m_movementInfo.ChangePosition(x, y, z, GetOrientation());
+        m_movementInfo->ChangePosition(x, y, z, GetOrientation());
 
     if (isType(TYPEMASK_PLAYER))
         this->ToCPlayer()->HandleRelocate(x, y, z, GetOrientation());
@@ -1172,7 +1172,7 @@ void WorldObject::SetOrientation(float orientation)
     m_position.o = orientation;
 
     if (isType(TYPEMASK_UNIT))
-        m_movementInfo.ChangeOrientation(orientation);
+        m_movementInfo->ChangeOrientation(orientation);
 }
 
 uint32 WorldObject::GetZoneId() const

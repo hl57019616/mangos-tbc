@@ -20,9 +20,9 @@ bool AntiCheat_test::HandleMovement(const MovementInfoPtr& MoveInfo, Opcodes opc
     m_Player->BoxChat << "sinAngle: " << newmoveInfo->jump.sinAngle << "\n";
     m_Player->BoxChat << "velocity: " << newmoveInfo->jump.velocity << "\n";
     m_Player->BoxChat << "xyspeed: " << newmoveInfo->jump.xyspeed << "\n";
-    m_Player->BoxChat << "cposx: " << newmoveInfo->GetPos()->x << "\n";
-    m_Player->BoxChat << "cposy: " << newmoveInfo->GetPos()->y << "\n";
-    m_Player->BoxChat << "cposz: " << newmoveInfo->GetPos()->z << "\n";
+    m_Player->BoxChat << "cposx: " << newmoveInfo->GetPos().x << "\n";
+    m_Player->BoxChat << "cposy: " << newmoveInfo->GetPos().y << "\n";
+    m_Player->BoxChat << "cposz: " << newmoveInfo->GetPos().z << "\n";
     m_Player->BoxChat << "angle: " << angle << "\n";
     m_Player->BoxChat << "moving: " << (IsMoving(newmoveInfo) ? "true" : "false") << "\n";
     m_Player->BoxChat << "falling: " << (isFalling(newmoveInfo) ? "true" : "false") << "\n";
