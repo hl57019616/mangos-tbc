@@ -383,7 +383,7 @@ bool Creature::InitEntry(uint32 Entry, CreatureData const* data /*=nullptr*/, Ga
         else if (eventData->entry_id)
             LoadEquipment(cinfo->EquipmentTemplateId, true);     // use changed entry default template
     }
-    else if (!data || (data->equipmentId == 0 && data->spawnTemplate->equipmentId == 0))
+    else if (!data || (data->equipmentId == 0 && data->spawnTemplate && data->spawnTemplate->equipmentId == 0))
     {
         if (cinfo->EquipmentTemplateId == 0)
             LoadEquipment(normalInfo->EquipmentTemplateId); // use default from normal template if diff does not have any
@@ -393,7 +393,7 @@ bool Creature::InitEntry(uint32 Entry, CreatureData const* data /*=nullptr*/, Ga
     else if (data)
     {
         // override, -1 means no equipment
-        if (data->spawnTemplate->equipmentId != -1)
+        if (data->spawnTemplate && data->spawnTemplate->equipmentId != -1)
             LoadEquipment(data->spawnTemplate->equipmentId);
         else if (data->equipmentId != -1)
             LoadEquipment(data->equipmentId);        
@@ -420,10 +420,12 @@ bool Creature::InitEntry(uint32 Entry, CreatureData const* data /*=nullptr*/, Ga
     // checked at loading
     if (data)
     {
-        if (data->spawnTemplate->IsRunning())
-            SetWalk(false);
-        if (data->spawnTemplate->IsHovering())
-            SetHover(true);
+        if (data->spawnTemplate) {
+            if (data->spawnTemplate->IsRunning())
+                SetWalk(false);
+            if (data->spawnTemplate->IsHovering())
+                SetHover(true);
+        }
         m_defaultMovementType = MovementGeneratorType(data->movementType);
     }
     else
@@ -463,14 +465,14 @@ bool Creature::UpdateEntry(uint32 Entry, const CreatureData* data /*=nullptr*/, 
         if (data)
         {
             uint32 curhealth = data->curhealth > 1 ? data->curhealth : GetMaxHealth();
-            if (data->spawnTemplate->curHealth > 0)
+            if (data->spawnTemplate && data->spawnTemplate->curHealth > 0)
                 curhealth = data->spawnTemplate->curHealth;
             SetHealth(m_deathState == ALIVE ? curhealth : 0);
             if (GetPowerType() == POWER_MANA)
             {
                 uint32 curmana;
                 uint32 newPossibleData = data->curmana;
-                if (data->spawnTemplate->curMana > 0)
+                if (data->spawnTemplate && data->spawnTemplate->curMana > 0)
                     newPossibleData = data->spawnTemplate->curMana;
                 if (IsRegeneratingPower()) // bypass so that 0 mana is possible TODO: change this to -1 in DB
                     curmana = newPossibleData ? newPossibleData : GetMaxPower(POWER_MANA);
@@ -492,7 +494,7 @@ bool Creature::UpdateEntry(uint32 Entry, const CreatureData* data /*=nullptr*/, 
     SetAttackTime(RANGED_ATTACK, GetCreatureInfo()->RangedBaseAttackTime);
 
     uint32 unitFlags = GetCreatureInfo()->UnitFlags;
-    if (data && data->spawnTemplate->unitFlags != -1)
+    if (data && data->spawnTemplate && data->spawnTemplate->unitFlags != -1)
         unitFlags = uint32(data->spawnTemplate->unitFlags);
 
     // we may need to append or remove additional flags
@@ -535,7 +537,7 @@ bool Creature::UpdateEntry(uint32 Entry, const CreatureData* data /*=nullptr*/, 
     UpdateAllStats();
 
     uint32 faction = GetCreatureInfo()->Faction;
-    if (data && data->spawnTemplate->faction)
+    if (data && data->spawnTemplate && data->spawnTemplate->faction)
         faction = data->spawnTemplate->faction;
 
     // checked and error show at loading templates
@@ -587,8 +589,9 @@ uint32 Creature::ChooseDisplayId(const CreatureInfo* cinfo, const CreatureData* 
     // Use creature model explicit, override template (creature.modelid)
     if (data)
     {
-        if (data->spawnTemplate->modelId)
-            return data->spawnTemplate->modelId;
+        if (data->spawnTemplate)
+            if (data->spawnTemplate->modelId)
+                return data->spawnTemplate->modelId;
         if (data->modelid_override)
             return data->modelid_override;
     }
