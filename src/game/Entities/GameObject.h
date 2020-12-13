@@ -24,6 +24,7 @@
 #include "Entities/Object.h"
 #include "Util.h"
 #include "AI/BaseAI/GameObjectAI.h"
+#include "Spells/SpellAuras.h"
 #include "Spells/SpellDefines.h"
 
 // GCC have alternative #pragma pack(N) syntax and old gcc version not support pack(push,N), also any gcc version not support it at some platform
@@ -839,6 +840,8 @@ class GameObject : public WorldObject
         GameObjectAI* AI() const { return m_AI.get(); }
 
         GameObjectModel* m_model;
+        void AddModelToMap();
+        void RemoveModelFromMap();
         void UpdateModelPosition();
 
         bool _IsWithinDist(WorldObject const* obj, float dist2compare, bool is3D) const override;
