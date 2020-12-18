@@ -120,6 +120,8 @@ enum SaveIds
     SAVE_ID_QUEL_DANAS = 20,
     SAVE_ID_EXPANSION_RELEASE = 21,
     SAVE_ID_HIGHLORD_KRUUL = 22,
+    // custom voa
+    SAVE_ID_BOOST_RESTRICTIONS = 1000,
 };
 
 enum GameEvents
@@ -148,6 +150,19 @@ enum GameEvents
     GAME_EVENT_AHN_QIRAJ_EFFORT_PHASE_4 = 123,
     // base perpetual state
     GAME_EVENT_AHN_QIRAJ_EFFORT_PHASE_5 = 124,
+
+    // custom
+    GAME_EVENT_I58_RESTRICTION_TBC_RACES        = 900,
+    GAME_EVENT_I58_RESTRICTION_HORDE_RACES      = 901,
+    GAME_EVENT_I58_RESTRICTION_ALLIANCE_RACES   = 902,
+};
+
+enum BoostRestriction
+{
+    BOOST_FLAG_TBC_RACES = 0x01,
+    BOOST_FLAG_HORDE_RACES = 0x02,
+    BOOST_FLAG_ALLIANCE_RACES = 0x04,
+    BOOST_FLAG_MAX = 0x08,
 };
 
 enum AQResources
@@ -289,6 +304,11 @@ class WorldState
         uint8 GetExpansion() const { return m_expansion; }
         bool SetExpansion(uint8 expansion);
 
+        // custom voa
+        uint32 IsTbcRaceBoostRestricted() { return m_restrictedTbcRacesBoosts; }
+        void SetTbcRaceBoostRestriction(uint32 flags);
+        void StartRestrictionEvent();
+
         void FillInitialWorldStates(ByteBuffer& data, uint32& count, uint32 zoneId, uint32 areaId);
 
         // helper functions for world state list fill
@@ -348,6 +368,9 @@ class WorldState
         bool m_highlordKruulSpawned;
         uint32 m_highlordKruulTimer;
         uint8 m_highlordKruulChosenPosition;
+
+        // custom voa
+        std::atomic<uint32> m_restrictedTbcRacesBoosts;
 };
 
 #define sWorldState MaNGOS::Singleton<WorldState>::Instance()
