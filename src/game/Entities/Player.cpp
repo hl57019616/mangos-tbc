@@ -1971,7 +1971,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
         }
     }
 
-    if ((GetMapId() == mapid) && (!m_transport))            // TODO the !m_transport might have unexpected effects when teleporting from transport to other place on same map
+    if ((GetMapId() == mapid) && (!m_transport) && !m_playerbotAI)            // TODO the !m_transport might have unexpected effects when teleporting from transport to other place on same map
     {
         // lets reset far teleport flag if it wasn't reset during chained teleports
         SetSemaphoreTeleportFar(false);
@@ -2031,7 +2031,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
         // It will be created in the WorldPortAck.
         DungeonPersistentState* state = GetBoundInstanceSaveForSelfOrGroup(mapid);
         Map* map = sMapMgr.FindMap(mapid, state ? state->GetInstanceId() : 0);
-        if (!map ||(GetMapId() != map->GetId() && map->CanEnter(this)))
+        if (!map ||(GetMapId() != map->GetId() && map->CanEnter(this)) || m_playerbotAI)
         {
             // lets reset near teleport flag if it wasn't reset during chained teleports
             SetSemaphoreTeleportNear(false);
