@@ -330,13 +330,13 @@ bool GenericTransport::RemovePassenger(Unit* passenger)
         if (Pet* pet = passenger->GetPet())
         {
             RemovePassenger(pet);
-            pet->movespline->_Interrupt();
+            pet->NearTeleportTo(passenger->m_movementInfo->pos.x, passenger->m_movementInfo->pos.y, passenger->m_movementInfo->pos.z, passenger->m_movementInfo->pos.o);
         }
 
         if (Pet* pet = passenger->GetMiniPet())
         {
             RemovePassenger(pet);
-            pet->movespline->_Interrupt();
+            pet->NearTeleportTo(passenger->m_movementInfo->pos.x, passenger->m_movementInfo->pos.y, passenger->m_movementInfo->pos.z, passenger->m_movementInfo->pos.o);
         }
     }
     return true;
@@ -346,8 +346,8 @@ bool GenericTransport::AddPetToTransport(Unit* passenger, Pet* pet)
 {
     if (AddPassenger(pet))
     {
-        pet->movespline->_Interrupt();
         pet->m_movementInfo->SetTransportData(GetObjectGuid(), passenger->m_movementInfo->t_pos.x, passenger->m_movementInfo->t_pos.y, passenger->m_movementInfo->t_pos.z, passenger->m_movementInfo->t_pos.o, GetPathProgress());
+        pet->NearTeleportTo(passenger->m_movementInfo->pos.x, passenger->m_movementInfo->pos.y, passenger->m_movementInfo->pos.z, passenger->m_movementInfo->pos.o);
         return true;
     }
     return false;
