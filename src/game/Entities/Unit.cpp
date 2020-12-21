@@ -10892,7 +10892,7 @@ void Unit::SendTeleportPacket(float x, float y, float z, float ori, GenericTrans
     MovementInfoPtr teleportMovementInfo = m_movementInfo;
     if (transport)
     {
-        teleportMovementInfo.SetTransportData(transport->GetObjectGuid(), x, y, z, ori, transport->GetPathProgress());
+        teleportMovementInfo->SetTransportData(transport->GetObjectGuid(), x, y, z, ori, transport->GetPathProgress());
         transport->CalculatePassengerPosition(x, y, z, &ori); // recalculate to real coords
     }
     teleportMovementInfo->ChangePosition(x, y, z, ori);

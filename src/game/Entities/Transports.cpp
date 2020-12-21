@@ -225,7 +225,7 @@ void Transport::TeleportTransport(uint32 newMapid, float x, float y, float z, fl
 
         Unit* passengerUnit = static_cast<Unit*>(obj);
 
-        Position pos = passengerUnit->m_movementInfo.GetTransportPos();
+        Position pos = passengerUnit->m_movementInfo->GetTransportPos();
 
         switch (obj->GetTypeId())
         {
